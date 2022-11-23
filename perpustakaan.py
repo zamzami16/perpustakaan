@@ -1,6 +1,7 @@
 import dataModel
 import os
 from getpass import getpass
+from tabulate import tabulate
 
 
 class management_perpustakaan:
@@ -20,6 +21,7 @@ Silakan pilih (angka) menu yang anda inginkan
     [2]: Input Peminjaman
     [3]: Input Pengembalian
     [4]: Pendaftaran Anggota Baru
+    [5]: Edit Buku
     [9]: Keluar Aplikasi
 """
         print(prined)
@@ -43,8 +45,9 @@ Silakan pilih (angka) menu yang anda inginkan
             # run Input Pengembalian
             self.input_data_pengembalian()
         elif menu == 4:
-            # run Pendaftaran anggota baru
-            pass
+            self.input_anggota_baru()
+        elif menu == 5:
+            self.edit_buku()
         elif menu == 9:
             print("Keluar Aplikasi ...")
             exit()
@@ -87,82 +90,82 @@ Silakan pilih (angka) menu yang anda inginkan:
         else:
             self.main_menu()
 
-    def _input_data_block_rak_buku(self):
-        block = ("Block A", "Block B", "Block C", "Block D", "Block E")
-        pil_block = """
-Main Menu/Input Data/Rak Buku/>
+#     def _input_data_block_rak_buku(self):
+#         block = ("Block A", "Block B", "Block C", "Block D", "Block E")
+#         pil_block = """
+# Main Menu/Input Data/Rak Buku/>
 
-Silakan masukkan data:
+# Silakan masukkan data:
 
-Pilih (angka) Lokasi Rak Buku:
-    [1]: Block A
-    [2]: Block B
-    [3]: Block C
-    [4]: Block D
-    [5]: Block E
-        """
-        print(pil_block)
-        trial = 4
+# Pilih (angka) Lokasi Rak Buku:
+#     [1]: Block A
+#     [2]: Block B
+#     [3]: Block C
+#     [4]: Block D
+#     [5]: Block E
+#         """
+#         print(pil_block)
+#         trial = 4
 
-        idx_rak_buku = input("Masukkan (angka) Lokasi yang dipilih: ")
-        # print(idx_rak_buku)
-        try:
-            for i in range(trial):
-                idx_rak_buku = int(idx_rak_buku)
-                lokasi_rak_buku = block[idx_rak_buku - 1]
-                i += 5
-                # print(lokasi_rak_buku)
-                return lokasi_rak_buku
-        except:
-            i += 1
-            print(
-                "Masukkan hanya angka saja. / (percobaan ke -{} dari 4".format(
-                    i
-                )
-            )
+#         idx_rak_buku = input("Masukkan (angka) Lokasi yang dipilih: ")
+#         # print(idx_rak_buku)
+#         try:
+#             for i in range(trial):
+#                 idx_rak_buku = int(idx_rak_buku)
+#                 lokasi_rak_buku = block[idx_rak_buku - 1]
+#                 i += 5
+#                 # print(lokasi_rak_buku)
+#                 return lokasi_rak_buku
+#         except:
+#             i += 1
+#             print(
+#                 "Masukkan hanya angka saja. / (percobaan ke -{} dari 4".format(
+#                     i
+#                 )
+#             )
 
-    def _input_data_nama_rak(self, block_name):
-        list_nama_rak = {
-            "Block A": {"a": "A116", "b": "A216", "c": "A316"},
-            "Block B": {"a": "B412", "b": "B512", "c": "B612"},
-            "Block C": {"a": "C721", "b": "C821", "c": "C921"},
-            "Block D": {"a": "D942", "b": "D842", "c": "D742"},
-            "Block E": {"a": "E651", "b": "E551", "c": "E451"},
-        }
-        # print(list_nama_rak[block_name])
-        pil_nama_rak = """
-Pilih nama Block berikut:
-    [1]: %(a)s
-    [2]: %(b)s
-    [3]: %(c)s
-        """
-        # pilih nama rak buku
-        forma = list_nama_rak[block_name]
-        # print(forma)
-        print(pil_nama_rak % forma)
-        idx_nama_rak = None
-        jj = 0
-        while jj < 5:
-            idx_nama_rak = input("Masukkan (angka) nama rak yang dipilih")
-            try:
-                idx_nama_rak = int(idx_nama_rak)
-                jj += 5
-            except:
-                jj += 1
-                print(
-                    "Masukkan hanya angka saja. / (percobaan ke -{} dari 4".format(
-                        jj
-                    )
-                )
-        if idx_nama_rak is not None:
-            nama_rak = list_nama_rak[block_name]
-            if idx_nama_rak == 1:
-                nama_rak = nama_rak["a"]
-            elif idx_nama_rak == 2:
-                nama_rak = nama_rak["b"]
-            elif idx_nama_rak == 3:
-                nama_rak = nama_rak["c"]
-        return nama_rak
+#     def _input_data_nama_rak(self, block_name):
+#         list_nama_rak = {
+#             "Block A": {"a": "A116", "b": "A216", "c": "A316"},
+#             "Block B": {"a": "B412", "b": "B512", "c": "B612"},
+#             "Block C": {"a": "C721", "b": "C821", "c": "C921"},
+#             "Block D": {"a": "D942", "b": "D842", "c": "D742"},
+#             "Block E": {"a": "E651", "b": "E551", "c": "E451"},
+#         }
+#         # print(list_nama_rak[block_name])
+#         pil_nama_rak = """
+# Pilih nama Block berikut:
+#     [1]: %(a)s
+#     [2]: %(b)s
+#     [3]: %(c)s
+#         """
+#         # pilih nama rak buku
+#         forma = list_nama_rak[block_name]
+#         # print(forma)
+#         print(pil_nama_rak % forma)
+#         idx_nama_rak = None
+#         jj = 0
+#         while jj < 5:
+#             idx_nama_rak = input("Masukkan (angka) nama rak yang dipilih")
+#             try:
+#                 idx_nama_rak = int(idx_nama_rak)
+#                 jj += 5
+#             except:
+#                 jj += 1
+#                 print(
+#                     "Masukkan hanya angka saja. / (percobaan ke -{} dari 4".format(
+#                         jj
+#                     )
+#                 )
+#         if idx_nama_rak is not None:
+#             nama_rak = list_nama_rak[block_name]
+#             if idx_nama_rak == 1:
+#                 nama_rak = nama_rak["a"]
+#             elif idx_nama_rak == 2:
+#                 nama_rak = nama_rak["b"]
+#             elif idx_nama_rak == 3:
+#                 nama_rak = nama_rak["c"]
+#         return nama_rak
 
     def input_data_rak_buku(self):
         """Input data rak buku baru"""
@@ -186,7 +189,7 @@ Pilih nama Block berikut:
             cmd = (
                 "Apakah anda ingin menambah data rak buku? [Y (default)]/[n]?: "
             )
-            command = input(cmd)
+            command = input(cmd) or 'y'
             if (command == "n") or (command == "N"):
                 self.main_menu()
             else:
@@ -242,7 +245,7 @@ Pilih nama Block berikut:
         )
 
         cmd = "Apakah anda ingin menambah data buku? [Y (default)]/[n]?: "
-        command = input(cmd)
+        command = input(cmd) or 'y'
         if (command == "n") or (command == "N"):
             self.main_menu()
         else:
@@ -265,7 +268,7 @@ Pilih nama Block berikut:
         self.dataBase.add_peminjaman(kode_buku, nama_peminjam, self.whoiam)
 
         cmd = "\nApakah anda ingin menambah data peminjam? [Y (default)]/[n]?: "
-        command = input(cmd)
+        command = input(cmd)  or 'y'
         if (command == "n") or (command == "N"):
             self.main_menu()
         else:
@@ -282,18 +285,100 @@ Pilih nama Block berikut:
         if (kode_buku == "c") or (kode_buku == "C"):
             self.main_menu()
 
-        nama_peminjam = input("Masukkan nama Peminjam" + cancel_)
+        nama_peminjam = input("Masukkan nama Peminjam" + cancel_) 
         if (nama_peminjam == "c") or (nama_peminjam == "C"):
             self.main_menu()
 
         self.dataBase.add_pengembalian(kode_buku, nama_peminjam, self.whoiam)
 
         cmd = "\nApakah anda ingin menambah data pengembalian? [Y (default)]/[n]?: "
-        command = input(cmd)
+        command = input(cmd)  or 'y'
         if (command == "n") or (command == "N"):
             self.main_menu()
         else:
             self.input_data_pengembalian()
+    
+    def input_anggota_baru(self):
+        """Menambahkan anggota baru"""
+        os.system('cls')
+        print("Main Menu/Input Pendaftaran Anggota Baru/> \n")
+        cancel_ = " [c]->cancel> "
+
+        nama_anggota = input("Nama Anggota" + cancel_)
+        if (nama_anggota == "c") or (nama_anggota == "C"):
+            self.main_menu()
+
+        kelas_anggota = int(input("Kelas Anggota (1 s/d 12): [0]->cancel:> "))
+        if kelas_anggota in range(1, 13):
+            kelas_anggota = kelas_anggota
+        elif kelas_anggota == 0:
+            self.main_menu()
+        else:
+            print("Kelas harus dari 1 s/d 12")
+            self.input_anggota_baru()
+        
+        no_telp_anggota = input("Nomor Telephon" + cancel_)
+        if (no_telp_anggota == "c") or (no_telp_anggota == "C"):
+            self.main_menu()
+        
+        alamat_anggota = input("Alamat Anggota" + cancel_)
+        if (alamat_anggota == "c") or (alamat_anggota == "C"):
+            self.main_menu()
+
+        self.dataBase.add_anggota(nama_anggota, kelas_anggota, no_telp_anggota, alamat_anggota)
+
+        cmd = "\nApakah anda ingin menambah data anggota baru? [Y (default)]/[n]?: "
+        command = input(cmd) or 'y'
+        if (command == "n") or (command == "N"):
+            self.main_menu()
+        else:
+            self.input_anggota_baru()
+    
+    def edit_buku(self):
+        """Edit table buku"""
+        os.system('cls')
+        print("Main Menu/Edit Buku/>\n")
+        all_data_buku = self.dataBase._get_all_data_from_table('buku')
+        print("Silakan pilih id_buku")
+        headers = ['Id Buku', 'Kode Buku', 'Judul Buku', 'Penulis', 'Penerbit', 'Tahun Terbit', 'Stock', 'Id Rak']
+
+        print(tabulate(all_data_buku, headers, tablefmt='orgtbl'))
+        print('\n')
+
+        id_buku_terpilih = input("Pilih Id Buku: [c]->cancel :> ")
+        if (id_buku_terpilih == 'c') or (id_buku_terpilih == 'C'):
+            self.main_menu()
+        else:
+            id_buku_terpilih = int(id_buku_terpilih)
+
+        val = self.dataBase._get_data_table_where('buku', ("id_buku", id_buku_terpilih))
+        # print(val)
+        print("Pilih (Nomor) yang mau diedit")
+
+        tampil = []
+        for i in range(1, len(val)-1):
+            tampil.append([i, headers[i], val[i]])
+        
+        print(tabulate(tampil, ["No", "kunci", "Nilai yang diganti"], tablefmt='orgtbl'))
+        print('\n')
+        idx = int(input("Pilih (No) yang akan diganti:> "))
+        pengganti = input(f"{val[idx]} Diganti dengan:> ")
+
+        key = ('id_buku', 'kode_buku', 'judul_buku', 'penulis_buku', 'penerbit_buku', 'tahun_terbit_buku', 'stock_buku', 'id_rak')
+
+        resp = self.dataBase._update_data_table_where('buku', (key[idx], pengganti), (key[0], id_buku_terpilih))
+        if resp:
+            print("\nBerhasil mengganti!")
+            print(f"{val[idx]} diganti dengan {pengganti}")
+            cmd = "\nGanti tabel buku lagi? [Y (default)]/[n]?: "
+            command = input(cmd) or 'y'
+            if (command == "n") or (command == "N"):
+                self.main_menu()
+            else:
+                self.edit_buku()
+        else:
+            print("Edit Buku Error.\nkembali ke Main Menu\n")
+            self.main_menu()
 
     def login(self):
         """Login petugas perpustakaan"""
@@ -302,10 +387,10 @@ Pilih nama Block berikut:
 
         ntrials = 0
         while (self.whoiam is None) & (ntrials < 3):
-            username = input("Enter username: ")
-            password = getpass("Enter password: ")
-            # username = "zami"
-            # password = "zami123"
+            # username = input("Enter username: ")
+            # password = getpass("Enter password: ")
+            username = "zami"
+            password = "zami123"
             if (username == "zami") & (password == "zami123"):
                 self.whoiam = "zami"
                 ntrials += 3

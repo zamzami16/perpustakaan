@@ -374,7 +374,53 @@ class dataModel():
                     value.append(nama[0])
                 return value
         except mysql.connector.Error as err:
-            print('get_all_nama_rek_buku: ', err.msg)
+            print('get_all_nama_rak_buku: ', err.msg)
+    
+    def _get_all_data_from_table(self, table_name):
+        """Get all data from table"""
+        q_all_buku = f"SELECT * FROM {table_name}"
+        cnx = self.connect_to_db()
+        try:
+            with cnx.cursor() as cursor:
+                cursor.execute(q_all_buku)
+                all_data_buku = cursor.fetchall()
+            return all_data_buku
+            cnx.close()
+        except mysql.connector.Error as err:
+            print('_get_all_data_from_table: ', err.msg)
+        cnx.close()
+
+    def _get_data_table_where(self, table_name, conditions):
+        """Get data from table with given one conditions"""
+        query = F"SELECT * FROM {table_name} WHERE {conditions[0]} = {conditions[1]}"
+        cnx = self.connect_to_db()
+        try:
+            with cnx.cursor() as cursor:
+                cursor.execute(query)
+                all_data_buku = cursor.fetchone()
+            return all_data_buku
+            cnx.close()
+        except mysql.connector.Error as err:
+            print('_get_data_table_where: ', err.msg)
+        cnx.close()
+
+    def _update_data_table_where(self, table_name, set_to, conditions):
+        '''"""Update table with given value and condition"""'''
+
+        query = f"UPDATE {table_name} SET {set_to[0]} = '{set_to[1]}' WHERE {conditions[0]} = {conditions[1]}"
+       
+        cnx = self.connect_to_db()
+        try:
+            with cnx.cursor() as cursor:
+                cursor.execute(query)
+                cnx.commit()
+                return True
+        except mysql.connector.Error as err:
+            print('_update_data_table_where: ', err.msg)
+            return False
+        cnx.close()
+
+
 
 if __name__ == "__main__":
     # pass
