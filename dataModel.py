@@ -291,11 +291,12 @@ class dataModel():
                 cnx.commit()
                 print("add_rak_buku: rak_buku berhasil ditambhakan")
                 cnx.close()
-                return id_rak
+                return True
         except mysql.connector.Error as err:
             print("add_rak_buku: ", err, err.msg)
             cnx.close()
-
+            return False
+            
     def add_peminjaman(self, kode_buku, nama_anggota, nama_petugas):
         """add new peminjaman"""
         tgl_pinjam = date.today()
