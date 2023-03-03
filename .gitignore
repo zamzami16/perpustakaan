@@ -1,8 +1,8 @@
 .perpustakaan/
-__pychace__/
+__pycache__/
 dist/
 build/
-*pyc
+*.pyc
 .idea/
 perpustakaan.db
 temp.py
